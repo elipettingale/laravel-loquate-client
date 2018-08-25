@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'invalid_argument' => ':argument Was Invalid'
+    'invalid_key' => 'The provided api key is invalid'
 ];
