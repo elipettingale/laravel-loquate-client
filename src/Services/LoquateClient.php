@@ -21,6 +21,17 @@ class LoquateClient
             'form_params' => $parameters
         ]);
 
-        return json_decode($request->getBody(), true);
+        $response = json_decode($request->getBody(), true)['Items'];
+
+        if ($this->hasError($response)) {
+            throw new \InvalidArgumentException($response[0]['Description']);
+        }
+
+        return $response;
+    }
+
+    private function hasError(array $response): bool
+    {
+        return array_key_exists('Error', $response[0]);
     }
 }
