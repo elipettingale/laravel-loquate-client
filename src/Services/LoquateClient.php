@@ -2,11 +2,26 @@
 
 namespace EliPett\LoquateClient\Services;
 
+use Psr\Http\Message\ResponseInterface;
+
 class LoquateClient
 {
     public function find(array $parameters): array
     {
         $request = LoquateRequestFactory::find($parameters);
+
+        return $this->all($request);
+    }
+
+    public function retrieve(string $id): array
+    {
+        $request = LoquateRequestFactory::retrieve($id);
+
+        return $this->first($request);
+    }
+
+    private function all(ResponseInterface $request): array
+    {
         $response = json_decode($request->getBody(), true)['Items'];
 
         if ($this->hasError($response)) {
@@ -16,16 +31,9 @@ class LoquateClient
         return $response;
     }
 
-    public function retrieve(string $id): array
+    private function first(ResponseInterface $request): array
     {
-        $request = LoquateRequestFactory::retrieve($id);
-        $response = json_decode($request->getBody(), true)['Items'];
-
-        if ($this->hasError($response)) {
-            $this->throwError($response[0]);
-        }
-
-        return $response[0];
+        return $this->all($request)[0];
     }
 
     private function hasError(array $response): bool
