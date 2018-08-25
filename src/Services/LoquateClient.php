@@ -10,7 +10,7 @@ class LoquateClient
         $response = json_decode($request->getBody(), true)['Items'];
 
         if ($this->hasError($response)) {
-            throw new \InvalidArgumentException($response[0]['Description']);
+            $this->throwError($response[0]);
         }
 
         return $response;
@@ -19,5 +19,12 @@ class LoquateClient
     private function hasError(array $response): bool
     {
         return array_key_exists('Error', $response[0]);
+    }
+
+    private function throwError(array $error): void
+    {
+        throw new \InvalidArgumentException(
+            'Loquate Error #' . $error['Error'] . ': ' . $error['Description'] . '. ' . $error['Cause']
+        );
     }
 }
