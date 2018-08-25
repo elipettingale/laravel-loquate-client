@@ -23,8 +23,10 @@ class LoquateClient
 
     private function throwError(array $error): void
     {
-        throw new \InvalidArgumentException(
-            'Loquate Error #' . $error['Error'] . ': ' . $error['Description'] . '. ' . $error['Cause']
-        );
+        $number = array_get($error, 'Error');
+        $description = array_get($error, 'Description');
+        $cause = array_get($error, 'Cause');
+
+        throw new \InvalidArgumentException("Loquate Error #$number: $description. $cause");
     }
 }
