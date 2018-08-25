@@ -4,7 +4,7 @@ namespace EliPett\LoquateClient\Services;
 
 class LoquateClient
 {
-    public function find(array $parameters)
+    public function find(array $parameters): array
     {
         $request = LoquateRequestFactory::find($parameters);
         $response = json_decode($request->getBody(), true)['Items'];
@@ -14,6 +14,18 @@ class LoquateClient
         }
 
         return $response;
+    }
+
+    public function retrieve(string $id): array
+    {
+        $request = LoquateRequestFactory::retrieve($id);
+        $response = json_decode($request->getBody(), true)['Items'];
+
+        if ($this->hasError($response)) {
+            $this->throwError($response[0]);
+        }
+
+        return $response[0];
     }
 
     private function hasError(array $response): bool
