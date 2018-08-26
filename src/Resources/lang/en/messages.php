@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'invalid_key' => 'The provided api key is invalid'
+    'error' => [
+        'endpoint' => 'The requested endpoint is not instantiatable'
+    ]
 ];
