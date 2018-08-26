@@ -8,7 +8,13 @@ class LoquateClientServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $this->loadTranslations();
         $this->publishAssets();
+    }
+
+    private function loadTranslations()
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/Resources/lang', 'loquateclient');
     }
 
     private function publishAssets()
