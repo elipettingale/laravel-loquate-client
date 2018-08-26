@@ -3,6 +3,7 @@
 namespace EliPett\LoquateClient\Services\Endpoints;
 
 use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface;
 
 class AddressVerification
 {
@@ -26,6 +27,23 @@ class AddressVerification
             'form_params' => $parameters
         ]);
 
+        return $this->all($request);
+    }
+
+    public function retrieve(string $id): array
+    {
+        $request = $this->client->post('Retrieve/v1.00/json3.ws', [
+            'form_params' => [
+                'Key' => $this->key,
+                'Id' => $id
+            ]
+        ]);
+
+        return $this->first($request);
+    }
+
+    private function all(ResponseInterface $request): array
+    {
         $response = json_decode($request->getBody(), true)['Items'];
 
         if ($this->hasError($response)) {
@@ -35,22 +53,9 @@ class AddressVerification
         return $response;
     }
 
-    public function retrieve(string $id): array
+    private function first(ResponseInterface $request): array
     {
-        $request = $this->client->post(null, [
-            'form_params' => [
-                'Key' => $this->key,
-                'Id' => $id
-            ]
-        ]);
-
-        $response = json_decode($request->getBody(), true)['Items'];
-
-        if ($this->hasError($response)) {
-            $this->throwError($response[0]);
-        }
-
-        return $response[0];
+        return $this->all($request)[0];
     }
 
     private function hasError(array $response): bool
@@ -60,10 +65,10 @@ class AddressVerification
 
     private function throwError(array $error): void
     {
-        $number = array_get($error, 'Error');
-        $description = array_get($error, 'Description');
-        $cause = array_get($error, 'Cause');
-
-        throw new \InvalidArgumentException("Loquate Error #$number: $description. $cause");
+        throw new \InvalidArgumentException(trans('loquateclient.error.api', [
+            'number' => array_get($error, 'Error'),
+            'description' => array_get($error, 'Description'),
+            'cause' => array_get($error, 'Cause')
+        ]));
     }
 }
