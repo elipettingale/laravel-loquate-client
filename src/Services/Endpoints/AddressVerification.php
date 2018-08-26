@@ -1,11 +1,11 @@
 <?php
 
-namespace EliPett\LoquateClient\Services;
+namespace EliPett\LoquateClient\Services\Endpoints;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
-class LoquateRequestFactory
+class AddressVerification
 {
     public static function find(array $parameters): ResponseInterface
     {
