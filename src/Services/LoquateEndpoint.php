@@ -10,10 +10,10 @@ class LoquateEndpoint
     protected $client;
     protected $key;
 
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->client = $client;
-        $this->key = config('loquateclient.api_key');
+        $this->client = new Client();
+        $this->key = config('loquateclient.api_key', env('LOQUATE_API_KEY'));
     }
 
     protected function all(ResponseInterface $request): array
@@ -39,7 +39,7 @@ class LoquateEndpoint
 
     private function throwError(array $error): void
     {
-        throw new \InvalidArgumentException(trans('loquateclient.error.api', [
+        throw new \InvalidArgumentException(trans('loquateclient::messages.error.api', [
             'number' => array_get($error, 'Error'),
             'description' => array_get($error, 'Description'),
             'cause' => array_get($error, 'Cause')
