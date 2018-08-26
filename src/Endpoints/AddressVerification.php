@@ -1,6 +1,6 @@
 <?php
 
-namespace EliPett\LoquateClient\Services\Endpoints;
+namespace EliPett\LoquateClient\Endpoints;
 
 use EliPett\LoquateClient\Processors\ResponseProcessor;
 use GuzzleHttp\Client;

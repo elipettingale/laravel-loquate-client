@@ -2,7 +2,7 @@
 
 namespace EliPett\LoquateClient\Services;
 
-use EliPett\LoquateClient\Services\Endpoints\AddressVerification;
+use EliPett\LoquateClient\Endpoints\AddressVerification;
 
 /**
  * Class LoquateClient
@@ -14,7 +14,7 @@ class LoquateClient
 {
     public function __get($name)
     {
-        $class = 'EliPett\\LoquateClient\\Services\\Endpoints\\' . ucfirst($name);
+        $class = 'EliPett\\LoquateClient\\Endpoints\\' . ucfirst($name);
 
         if (class_exists($class)) {
             return new $class;
