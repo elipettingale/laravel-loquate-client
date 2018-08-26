@@ -2,6 +2,7 @@
 
 return [
     'error' => [
-        'endpoint' => 'The requested endpoint is not instantiatable'
+        'endpoint' => 'The requested endpoint is not instantiatable',
+        'api' => 'Error #:number: :description. :cause'
     ]
 ];
