@@ -13,7 +13,7 @@ class LoquateEndpoint
     public function __construct()
     {
         $this->client = new Client();
-        $this->key = config('loquateclient.api_key');
+        $this->key = config('loquateclient.api_key', env('LOQUATE_API_KEY'));
     }
 
     protected function all(ResponseInterface $request): array
