@@ -20,6 +20,6 @@ class LoquateClient
             return new $class;
         }
 
-        throw new \InvalidArgumentException(trans('loquateclient.error.endpoint'));
+        throw new \InvalidArgumentException(trans('loquateclient::messages.error.endpoint'));
     }
 }

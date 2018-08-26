@@ -39,7 +39,7 @@ class LoquateEndpoint
 
     private function throwError(array $error): void
     {
-        throw new \InvalidArgumentException(trans('loquateclient.error.api', [
+        throw new \InvalidArgumentException(trans('loquateclient::messages.error.api', [
             'number' => array_get($error, 'Error'),
             'description' => array_get($error, 'Description'),
             'cause' => array_get($error, 'Cause')
