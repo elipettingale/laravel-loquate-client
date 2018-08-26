@@ -2,32 +2,45 @@
 
 namespace EliPett\LoquateClient\Services\Endpoints;
 
-use EliPett\LoquateClient\Services\LoquateEndpoint;
+use EliPett\LoquateClient\Processors\ResponseProcessor;
+use GuzzleHttp\Client;
 
-class AddressVerification extends LoquateEndpoint
+class AddressVerification
 {
-    private $uri = 'https://api.addressy.com/Capture/Interactive';
+    private $client;
+    private $key;
+
+    public function __construct()
+    {
+        $this->client = new Client([
+            'base_uri' => 'https://api.addressy.com/Capture/Interactive/'
+        ]);
+
+        $this->key = config('loquateclient.api-key',
+            env('LOQUATE_API_KEY')
+        );
+    }
 
     public function find(array $parameters): array
     {
         $parameters['Key'] = $this->key;
 
-        $request = $this->client->post("{$this->uri}/Find/v1.00/json3.ws", [
+        $response = $this->client->post('Find/v1.00/json3.ws', [
             'form_params' => $parameters
         ]);
 
-        return $this->all($request);
+        return ResponseProcessor::all($response);
     }
 
     public function retrieve(string $id): array
     {
-        $request = $this->client->post("{$this->uri}/Retrieve/v1.00/json3.ws", [
+        $response = $this->client->post('/Retrieve/v1.00/json3.ws', [
             'form_params' => [
                 'Key' => $this->key,
                 'Id' => $id
             ]
         ]);
 
-        return $this->first($request);
+        return ResponseProcessor::first($response);
     }
 }
