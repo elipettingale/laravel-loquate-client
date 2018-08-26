@@ -2,20 +2,21 @@
 
 namespace EliPett\LoquateClient\Services;
 
+use EliPett\LoquateClient\Services\Endpoints\AddressVerification;
 use Psr\Http\Message\ResponseInterface;
 
 class LoquateClient
 {
     public function find(array $parameters): array
     {
-        $request = LoquateRequestFactory::find($parameters);
+        $request = AddressVerification::find($parameters);
 
         return $this->all($request);
     }
 
     public function retrieve(string $id): array
     {
-        $request = LoquateRequestFactory::retrieve($id);
+        $request = AddressVerification::retrieve($id);
 
         return $this->first($request);
     }
