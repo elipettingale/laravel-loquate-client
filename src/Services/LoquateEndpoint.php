@@ -10,9 +10,9 @@ class LoquateEndpoint
     protected $client;
     protected $key;
 
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->client = $client;
+        $this->client = new Client();
         $this->key = config('loquateclient.api_key');
     }
 
